@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index">
+<title>Datenschutzerklärung — Bank-Sammler</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #121212; }
+    a { color: #5AC8FA; }
+    th { background: #1e1e1e !important; }
+    td, th { border-color: #333 !important; }
+  }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.25rem; margin-top: 2.2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.6rem; }
+  .stand { color: #888; font-size: 0.9rem; margin-top: 0; }
+  a { color: #007aff; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
+  th, td { border: 1px solid #ddd; padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
+  th { background: #f5f5f5; }
+  code { background: rgba(127,127,127,0.18); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
+  footer { margin-top: 3rem; color: #888; font-size: 0.85rem; border-top: 1px solid rgba(127,127,127,0.25); padding-top: 1rem; }
+</style>
+</head>
+<body>
+
+<h1>Datenschutzerklärung — Bank-Sammler</h1>
+<p class="stand">Stand: 13. Juni 2026</p>
+
+<p>Diese Datenschutzerklärung beschreibt, welche Daten die App <strong>Bank-Sammler</strong> verarbeitet und wie mit ihnen umgegangen wird.</p>
+
+<h2>Verantwortliche</h2>
+<p>Marc Mennekes &amp; Valentin Lorscheid<br>
+Kontakt: <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a></p>
+
+<h2>Zusammenfassung</h2>
+<p>Bank-Sammler speichert deine persönlichen Daten (Besuche, Bewertungen, Fotos) primär <strong>auf deinem Gerät</strong>. Damit du eigene Bänke mit anderen Nutzern teilen und Community-Funktionen nutzen kannst, werden einzelne Daten zusätzlich an unseren Dienstleister <strong>Supabase</strong> übertragen (siehe unten). Es gibt <strong>keine Nutzerkonten mit Namen oder E-Mail</strong>, keine Werbung und kein Tracking über App- oder Webseiten-Grenzen hinweg.</p>
+
+<h2>Welche Daten verarbeitet werden</h2>
+
+<h3>1. Anonyme Nutzer-Kennung</h3>
+<p>Beim ersten Start erzeugt die App eine zufällige, anonyme Kennung (UUID). Diese ist <strong>nicht</strong> mit deinem Namen, deiner E-Mail oder deiner Apple-ID verknüpft. Sie dient ausschließlich dazu, deine Community-Beiträge (z.B. von dir hinzugefügte Bänke, Bewertungen, Kommentare) technisch zuzuordnen und Doppelungen zu vermeiden. Es findet <strong>kein</strong> Login statt.</p>
+
+<h3>2. Standortdaten (nur Vordergrund)</h3>
+<p>Wenn du die Standortberechtigung gewährst, nutzt die App deine aktuelle Position, um:</p>
+<ul>
+  <li>Bänke aus OpenStreetMap im Umkreis zu laden</li>
+  <li>Entfernung und Richtung zur nächsten Bank zu berechnen</li>
+  <li>Die Karte auf deinen Standort zu zentrieren</li>
+</ul>
+<p>Deine genaue Position wird <strong>nicht dauerhaft gespeichert</strong> und <strong>nicht als Bewegungsprofil</strong> übertragen. Sie wird nur zur Laufzeit verwendet. Wenn du eine eigene Bank hinzufügst, werden die <strong>Koordinaten dieser Bank</strong> (nicht dein Standort) an Supabase übertragen, damit andere Nutzer sie sehen können.</p>
+
+<h3>3. Fotos und Kamera</h3>
+<p>Wenn du ein Foto zu einem Bank-Besuch hinzufügst, speichert die App eine Kopie dieses Fotos in deinem privaten App-Verzeichnis auf deinem Gerät. Die Fotos werden <strong>nicht hochgeladen</strong> und sind nur in dieser App sichtbar.</p>
+<p>Beim Zurücksetzen der Besuchsdaten in den Einstellungen werden alle gespeicherten Fotos gelöscht.</p>
+
+<h3>4. Community-Daten (Supabase)</h3>
+<p>Damit die Community-Funktionen funktionieren, werden folgende Daten an <strong>Supabase</strong> (Hosting in der EU) übertragen und dort gespeichert:</p>
+<ul>
+  <li><strong>Von dir hinzugefügte Bänke</strong> — Position, Name/Bezeichnung, Material/Eigenschaften</li>
+  <li><strong>Besuchsmarkierungen</strong> — welche Bänke du als „besucht" markiert hast (anonyme UUID + Bank-ID)</li>
+  <li><strong>Bewertungen</strong> — Sterne-Bewertungen zu Bänken</li>
+  <li><strong>Kommentare</strong> — Texte, die du zu einer Bank schreibst</li>
+  <li><strong>Meldungen</strong> — wenn du eine Bank als falsch/verschwunden meldest</li>
+</ul>
+<p>Diese Daten sind mit deiner anonymen UUID verknüpft, <strong>nicht</strong> mit deiner Identität. Community-Beiträge (Bänke, Bewertungen, Kommentare) sind für andere Nutzer sichtbar.</p>
+<p>Beim Zurücksetzen der Besuchsdaten in den Einstellungen werden deine serverseitigen Besuche gelöscht; über „Ausgeblendete wiederherstellen" werden deine Meldungen zurückgezogen.</p>
+
+<h3>5. Bänke-Daten von OpenStreetMap</h3>
+<p>Die App fragt zur Anzeige der Bänke die öffentliche <a href="https://overpass-api.de/">Overpass-API</a> ab. Dabei wird (wie bei jedem HTTP-Request) deine IP-Adresse an die Server des OSM-Projekts übermittelt. Es werden <strong>keine</strong> Nutzerdaten und keine personenbezogenen Daten mitgeschickt.</p>
+<p>Datennutzung und -lizenz: <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OpenStreetMap Privacy Policy</a>.</p>
+
+<h3>6. Karten</h3>
+<p>Die Karten werden über das systemeigene <strong>Apple Maps SDK</strong> dargestellt. Es gelten die <a href="https://www.apple.com/legal/privacy/">Apple-Datenschutzbestimmungen</a>.</p>
+
+<h2>Daten, die <em>nicht</em> erhoben werden</h2>
+<ul>
+  <li>Keine Werbe-IDs</li>
+  <li>Kein Cross-App- oder Cross-Site-Tracking</li>
+  <li>Keine Crash- oder Analytics-SDKs von Drittanbietern</li>
+  <li>Keine Namens-/E-Mail-Konten</li>
+  <li>Keine Cookies</li>
+</ul>
+
+<h2>Berechtigungen</h2>
+<table>
+  <tr><th>Berechtigung</th><th>Zweck</th><th>Pflicht?</th></tr>
+  <tr><td>Standort (bei Verwendung)</td><td>Kartenposition, Navigation zur nächsten Bank</td><td>Optional, App nutzbar ohne</td></tr>
+  <tr><td>Fotos (Mediathek)</td><td>Eigene Fotos zu Besuchen hinzufügen</td><td>Optional</td></tr>
+  <tr><td>Kamera</td><td>Fotos direkt zu Besuchen aufnehmen</td><td>Optional</td></tr>
+</table>
+
+<h2>Auftragsverarbeiter</h2>
+<table>
+  <tr><th>Dienst</th><th>Zweck</th><th>Datenschutz</th></tr>
+  <tr><td>Supabase</td><td>Speicherung der Community-Daten</td><td><a href="https://supabase.com/privacy">supabase.com/privacy</a></td></tr>
+  <tr><td>OpenStreetMap / Overpass</td><td>Bank-Standorte (öffentliche Karte)</td><td><a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OSMF Privacy Policy</a></td></tr>
+  <tr><td>Apple Maps</td><td>Kartendarstellung</td><td><a href="https://www.apple.com/legal/privacy/">Apple Privacy</a></td></tr>
+</table>
+
+<h2>Deine Rechte</h2>
+<ul>
+  <li><strong>Löschen aller App-Daten:</strong> Einstellungen → Daten → „Besuchsdaten zurücksetzen", oder App vom Gerät löschen.</li>
+  <li><strong>Löschen serverseitiger Daten / Auskunft:</strong> Da kein Konto existiert, ist die anonyme UUID der einzige Bezugspunkt. Schreib uns an <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a>, wenn du die Löschung deiner Community-Beiträge wünschst.</li>
+</ul>
+
+<h2>Datenweitergabe</h2>
+<p>Es findet <strong>keine</strong> Weitergabe oder Verkauf an Werbe-Dritte statt. Daten werden ausschließlich an die oben genannten Auftragsverarbeiter zur Bereitstellung der App-Funktionen übermittelt.</p>
+
+<h2>Kinder</h2>
+<p>Bank-Sammler richtet sich nicht speziell an Kinder. Da Kommentare öffentlich sichtbar sind, sollten Nutzer keine personenbezogenen Daten in Kommentare schreiben.</p>
+
+<h2>Änderungen</h2>
+<p>Diese Datenschutzerklärung kann mit zukünftigen App-Versionen angepasst werden. Die jeweils aktuelle Fassung ist in der App und im Store-Eintrag verlinkt.</p>
+
+<h2>Kontakt</h2>
+<p>Bei Fragen zur Datenverarbeitung: <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a></p>
+
+<footer>
+  <p><a href="index.html">← Zurück zur Übersicht</a></p>
+</footer>
+
+</body>
+</html>
