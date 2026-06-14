@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bench! — Navigieren · Designvorschlag „Präzisions-Kompass"</title>
+<style>
+  :root{
+    --red:#E8362B;
+    --red-bright:#FF453A;
+    --bg:#000;
+    --card:#1c1c1e;
+    --card-2:#2c2c2e;
+    --txt:#fff;
+    --muted:#8e8e93;
+    --hair:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(120% 80% at 50% -10%,#1a1a1c 0%,#0a0a0b 55%,#000 100%);
+    color:var(--txt);
+    display:flex;align-items:center;justify-content:center;
+    min-height:100%;padding:24px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- iPhone frame ---- */
+  .phone{
+    width:390px;height:844px;
+    background:#000;
+    border-radius:52px;
+    position:relative;
+    box-shadow:0 0 0 12px #1b1b1d,0 0 0 13px #000,0 40px 90px rgba(0,0,0,.65);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .notch{
+    position:absolute;top:11px;left:50%;transform:translateX(-50%);
+    width:126px;height:34px;background:#000;border-radius:20px;z-index:50;
+  }
+
+  /* ---- status bar ---- */
+  .status{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 30px 0;font-size:15px;font-weight:600;letter-spacing:.2px;
+    height:54px;
+  }
+  .status .right{display:flex;align-items:center;gap:6px}
+  .status svg{display:block}
+
+  /* ---- nav title ---- */
+  .navbar{text-align:center;padding:4px 0 6px;font-size:17px;font-weight:600}
+
+  .screen{flex:1;display:flex;flex-direction:column;padding:0 22px;overflow:hidden}
+
+  /* ---- target header ---- */
+  .head{display:flex;align-items:flex-start;justify-content:space-between;margin-top:6px}
+  .overline{font-size:12px;font-weight:700;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase}
+  .title{font-size:30px;font-weight:800;letter-spacing:-.5px;line-height:1.05;margin-top:3px}
+  .subtitle{font-size:15px;color:var(--muted);margin-top:3px}
+  .info{
+    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--hair);
+    color:var(--muted);display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-style:italic;font-weight:600;flex:none;margin-top:6px
+  }
+
+  /* ---- compass ---- */
+  .compass-wrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative;margin:2px 0}
+  .compass{width:300px;height:300px;position:relative}
+  /* fixed red bearing pointer at very top */
+  .pointer{
+    position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+    width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;
+    border-top:13px solid var(--red);z-index:6;
+    filter:drop-shadow(0 0 6px rgba(232,54,43,.55));
+  }
+  .dial{position:absolute;inset:0;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  .face{
+    position:absolute;inset:34px;border-radius:50%;
+    background:radial-gradient(circle at 50% 42%,#1a1a1c 0%,#101012 70%,#0a0a0b 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.6);
+    z-index:1;
+  }
+  /* crosshair center */
+  .cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4}
+  .cross span{position:absolute;background:rgba(255,255,255,.22)}
+  .cross .h{width:34px;height:1.5px;top:-.75px;left:-17px}
+  .cross .v{width:1.5px;height:34px;left:-.75px;top:-17px}
+  .cross .dot{
+    width:54px;height:54px;border-radius:50%;left:-27px;top:-27px;
+    background:radial-gradient(circle,rgba(255,255,255,.06),rgba(255,255,255,0) 70%);
+  }
+  /* bank needle — rotates to bearing */
+  .needle{position:absolute;inset:0;z-index:5;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  .needle .stem{
+    position:absolute;left:50%;top:60px;width:5px;height:96px;
+    transform:translateX(-50%);border-radius:3px;
+    background:linear-gradient(180deg,var(--red-bright),var(--red));
+    box-shadow:0 0 12px rgba(232,54,43,.6);
+  }
+  .needle .flag{
+    position:absolute;left:50%;top:50px;transform:translateX(-50%);
+    width:30px;height:30px;border-radius:50% 50% 50% 4px;
+    background:linear-gradient(135deg,#ff5a4f,var(--red));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 14px rgba(232,54,43,.5),inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .needle .flag svg{width:15px;height:15px}
+  .hub{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:14px;height:14px;border-radius:50%;background:#fff;z-index:6;
+    box-shadow:0 0 0 4px rgba(0,0,0,.8),0 0 10px rgba(255,255,255,.4);
+  }
+
+  /* ---- readout ---- */
+  .readout{text-align:center;margin-top:2px}
+  .readout .big{font-size:46px;font-weight:300;letter-spacing:-1px;line-height:1}
+  .readout .big b{font-weight:600}
+  .readout .sub{font-size:14px;color:var(--muted);margin-top:5px;letter-spacing:.3px}
+  .readout .sub .dirpill{color:var(--red);font-weight:700}
+
+  /* ---- stat row ---- */
+  .stats{display:flex;justify-content:space-between;margin:16px 4px 0;text-align:center}
+  .stats .s{flex:1}
+  .stats .s .v{font-size:24px;font-weight:800;letter-spacing:-.5px}
+  .stats .s .l{font-size:10px;font-weight:700;letter-spacing:1.3px;color:var(--muted);margin-top:3px}
+  .stats .sep{width:1px;background:var(--hair);margin:4px 0}
+
+  /* ---- badges ---- */
+  .badges{display:flex;gap:10px;justify-content:center;margin-top:16px}
+  .badge{
+    display:flex;align-items:center;gap:6px;font-size:13px;color:#d9d9de;
+    background:var(--card);border:1px solid var(--hair);
+    padding:7px 13px;border-radius:20px;
+  }
+  .badge svg{width:14px;height:14px;opacity:.85}
+  .badge.star svg{color:#FFD60A}
+
+  /* ---- buttons ---- */
+  .actions{display:flex;gap:12px;margin-top:18px}
+  .btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:9px;
+    height:56px;border-radius:16px;font-size:16px;font-weight:700;border:none;color:#fff;
+  }
+  .btn.dark{flex:0 0 132px;background:var(--card);border:1px solid var(--hair)}
+  .btn.red{background:linear-gradient(180deg,#f0463b,var(--red));box-shadow:0 8px 24px rgba(232,54,43,.4)}
+  .btn svg{width:19px;height:19px}
+  .reload{display:flex;align-items:center;gap:7px;justify-content:center;color:var(--muted);font-size:14px;margin:14px 0 4px}
+  .reload svg{width:14px;height:14px}
+
+  /* ---- tab bar ---- */
+  .tabs{
+    display:flex;justify-content:space-around;align-items:center;
+    padding:10px 0 26px;border-top:1px solid var(--hair);
+    background:rgba(20,20,22,.6);backdrop-filter:blur(20px);
+  }
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:var(--muted);font-weight:600}
+  .tab svg{width:24px;height:24px}
+  .tab.active{color:var(--red)}
+  .homebar{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.4);z-index:60}
+
+  .caption{position:fixed;bottom:16px;left:0;right:0;text-align:center;color:#6a6a70;font-size:13px}
+  .caption b{color:#aaa}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <!-- status bar -->
+  <div class="status">
+    <span>23:08 <svg width="13" height="13" viewBox="0 0 24 24" fill="#0a84ff" style="vertical-align:-2px"><path d="M22 2 2 9.5l8 2.5 2.5 8z"/></svg></span>
+    <span class="right">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="#fff"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4" width="3" height="8" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1" opacity=".35"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#fff"><path d="M8 2.5c2.3 0 4.4.9 6 2.4l-1.4 1.5C11.4 5.2 9.8 4.6 8 4.6s-3.4.6-4.6 1.8L2 4.9C3.6 3.4 5.7 2.5 8 2.5zm0 3.6c1.3 0 2.5.5 3.4 1.4L8 11 4.6 7.5C5.5 6.6 6.7 6.1 8 6.1z"/></svg>
+      <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1.5" width="21" height="10" rx="3" fill="none" stroke="#fff" stroke-opacity=".4"/><rect x="3" y="3.5" width="17" height="6" rx="1.5" fill="#fff"/><rect x="23.5" y="4.5" width="1.5" height="4" rx=".75" fill="#fff" fill-opacity=".5"/></svg>
+    </span>
+  </div>
+
+  <div class="navbar">Navigieren</div>
+
+  <div class="screen">
+
+    <!-- target header -->
+    <div class="head">
+      <div>
+        <div class="overline">Nächste Bank</div>
+        <div class="title">Bank #1583</div>
+        <div class="subtitle">mit Lehne</div>
+      </div>
+      <div class="info">i</div>
+    </div>
+
+    <!-- compass -->
+    <div class="compass-wrap">
+      <div class="compass">
+        <div class="pointer"></div>
+        <div class="dial" id="dial">
+          <svg viewBox="0 0 300 300" width="300" height="300" id="ticks"></svg>
+        </div>
+        <div class="face"></div>
+        <div class="cross"><span class="dot"></span><span class="h"></span><span class="v"></span></div>
+        <div class="needle" id="needle">
+          <div class="stem"></div>
+          <div class="flag">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M6 3v18M6 4h10l-2 3 2 3H6"/></svg>
+          </div>
+        </div>
+        <div class="hub"></div>
+      </div>
+    </div>
+
+    <!-- readout: distance + direction fused -->
+    <div class="readout">
+      <div class="big"><b>156</b> m</div>
+      <div class="sub">Blickrichtung NW · 314° &nbsp;→&nbsp; Bank in <span class="dirpill">NW</span></div>
+    </div>
+
+    <!-- stat row -->
+    <div class="stats">
+      <div class="s"><div class="v">156 m</div><div class="l">Entfernung</div></div>
+      <div class="sep"></div>
+      <div class="s"><div class="v">2 min</div><div class="l">Fussweg</div></div>
+      <div class="sep"></div>
+      <div class="s"><div class="v">NW</div><div class="l">Richtung</div></div>
+    </div>
+
+    <!-- badges -->
+    <div class="badges">
+      <div class="badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm-8 1a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0 2c-2.7 0-6 1.3-6 4v2h7v-2c0-1 .4-1.9 1-2.6A9 9 0 0 0 8 14zm8 0c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>0 Besuche</div>
+      <div class="badge star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7L12 18l-6.3 3.2L7 14.2 2 9.4l7-.9z"/></svg>Noch keine Bewertungen</div>
+    </div>
+
+    <!-- actions -->
+    <div class="actions">
+      <button class="btn dark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg>Auf Karte</button>
+      <button class="btn red"><svg viewBox="0 0 24 24" fill="#fff"><path d="M6 3v18M6 4h11l-2.2 3.5L17 11H6"/></svg>Hier war ich!</button>
+    </div>
+
+    <div class="reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>Bänke neu laden</div>
+  </div>
+
+  <!-- tab bar -->
+  <div class="tabs">
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg>Karte</div>
+    <div class="tab active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 2 2 9.5l8 2.5 2.5 8z"/></svg>Navigieren</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Liste</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Sammlung</div>
+  </div>
+
+  <div class="homebar"></div>
+</div>
+
+<div class="caption">Designvorschlag <b>„Präzisions-Kompass"</b> — iOS-Zifferblatt × Bench!-Navigation. Tippe irgendwo, um den Kompass live zu drehen.</div>
+
+<script>
+// --- build the graduated iOS-style dial ---
+const ns="http://www.w3.org/2000/svg";
+const svg=document.getElementById("ticks");
+const cx=150,cy=150,rOuter=146;
+const cardinals={0:"N",90:"O",180:"S",270:"W"};
+for(let deg=0;deg<360;deg+=2){
+  const major=deg%30===0;
+  const mid=deg%10===0;
+  const len=major?16:(mid?11:6);
+  const a=(deg-90)*Math.PI/180;
+  const x1=cx+(rOuter-len)*Math.cos(a), y1=cy+(rOuter-len)*Math.sin(a);
+  const x2=cx+rOuter*Math.cos(a), y2=cy+rOuter*Math.sin(a);
+  const ln=document.createElementNS(ns,"line");
+  ln.setAttribute("x1",x1);ln.setAttribute("y1",y1);
+  ln.setAttribute("x2",x2);ln.setAttribute("y2",y2);
+  ln.setAttribute("stroke","#fff");
+  ln.setAttribute("stroke-opacity",major?".85":(mid?".5":".25"));
+  ln.setAttribute("stroke-width",major?1.6:1);
+  svg.appendChild(ln);
+
+  if(major){
+    const tr=rOuter-30;
+    const lx=cx+tr*Math.cos(a), ly=cy+tr*Math.sin(a);
+    const t=document.createElementNS(ns,"text");
+    t.setAttribute("x",lx);t.setAttribute("y",ly);
+    t.setAttribute("text-anchor","middle");t.setAttribute("dominant-baseline","central");
+    if(cardinals[deg]){
+      t.textContent=cardinals[deg];
+      t.setAttribute("font-size","20");t.setAttribute("font-weight","700");
+      t.setAttribute("fill",deg===0?"#E8362B":"#fff");
+    }else{
+      t.textContent=deg;
+      t.setAttribute("font-size","13");t.setAttribute("font-weight","600");
+      t.setAttribute("fill","#fff");t.setAttribute("fill-opacity",".55");
+    }
+    svg.appendChild(t);
+  }
+}
+
+// --- live demo motion ---
+const dial=document.getElementById("dial");
+const needle=document.getElementById("needle");
+let heading=314;          // user facing NW
+const bankBearing=314;    // bank is to the NW
+function render(){
+  dial.style.transform=`rotate(${-heading}deg)`;          // ring turns opposite to heading
+  needle.style.transform=`rotate(${bankBearing-heading}deg)`; // needle = relative bearing
+}
+render();
+document.body.addEventListener("click",()=>{
+  heading=(heading+ (Math.random()*40-20));
+  render();
+});
+// gentle idle sway
+let t=0;
+setInterval(()=>{t+=0.05;dial.style.transform=`rotate(${-(heading+Math.sin(t)*1.5)}deg)`;},60);
+</script>
+</body>
+</html>
