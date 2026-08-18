@@ -38,7 +38,7 @@
 <body>
 
 <h1>Datenschutzerklärung — Bench!</h1>
-<p class="stand">Stand: 14. Juni 2026</p>
+<p class="stand">Stand: 18. August 2026</p>
 
 <p>Diese Datenschutzerklärung beschreibt, welche Daten die App <strong>Bench!</strong> verarbeitet und wie mit ihnen umgegangen wird.</p>
 
@@ -57,11 +57,11 @@ Kontakt: <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a></p
 <h3>2. Standortdaten (nur Vordergrund)</h3>
 <p>Wenn du die Standortberechtigung gewährst, nutzt die App deine aktuelle Position, um:</p>
 <ul>
-  <li>Bänke aus OpenStreetMap im Umkreis zu laden</li>
+  <li>Bänke in deiner Nähe im mitgelieferten Bank-Datensatz zu finden (passiert vollständig auf dem Gerät, ohne Netzwerkzugriff)</li>
   <li>Entfernung und Richtung zur nächsten Bank zu berechnen</li>
   <li>Die Karte auf deinen Standort zu zentrieren</li>
 </ul>
-<p>Deine genaue Position wird <strong>nicht dauerhaft gespeichert</strong> und <strong>nicht als Bewegungsprofil</strong> übertragen. Sie wird nur zur Laufzeit verwendet. Wenn du eine eigene Bank hinzufügst, werden die <strong>Koordinaten dieser Bank</strong> (nicht dein Standort) an Supabase übertragen, damit andere Nutzer sie sehen können.</p>
+<p>Deine genaue Position wird <strong>nicht dauerhaft gespeichert</strong> und <strong>nicht als Bewegungsprofil</strong> übertragen. Sie wird nur zur Laufzeit verwendet. Eine Ausnahme ist der „Navigieren"-Tab: Er fragt zusätzlich die Overpass-API nach den Bänken um dich herum und übermittelt dafür deine Koordinaten (siehe Abschnitt 5). Wenn du eine eigene Bank hinzufügst, werden die <strong>Koordinaten dieser Bank</strong> (nicht dein Standort) an Supabase übertragen, damit andere Nutzer sie sehen können.</p>
 
 <h3>3. Fotos und Kamera</h3>
 <p>Wenn du ein Foto zu einem Bank-Besuch hinzufügst, speichert die App eine Kopie dieses Fotos in deinem privaten App-Verzeichnis auf deinem Gerät. Standardmäßig bleiben diese Fotos <strong>lokal auf deinem Gerät</strong> und sind nur für dich sichtbar.</p>
@@ -83,7 +83,13 @@ Kontakt: <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a></p
 <p>Beim Zurücksetzen der Besuchsdaten in den Einstellungen werden deine serverseitigen Besuche gelöscht; über „Ausgeblendete wiederherstellen" werden deine Meldungen zurückgezogen.</p>
 
 <h3>5. Bänke-Daten von OpenStreetMap</h3>
-<p>Die App fragt zur Anzeige der Bänke die öffentliche <a href="https://overpass-api.de/">Overpass-API</a> ab. Dabei wird (wie bei jedem HTTP-Request) deine IP-Adresse an die Server des OSM-Projekts übermittelt. Es werden <strong>keine</strong> Nutzerdaten und keine personenbezogenen Daten mitgeschickt.</p>
+<p>Die Bank-Standorte sind als Datensatz <strong>fest in der App enthalten</strong> (abgeleitet aus OpenStreetMap). Die Karte braucht dafür <strong>keinen Netzwerkzugriff</strong> und überträgt beim Anzeigen der Bänke nichts.</p>
+<p>In zwei Fällen fragt die App zusätzlich die öffentliche <a href="https://overpass-api.de/">Overpass-API</a> ab:</p>
+<ul>
+  <li><strong>Wenn du eine Bank antippst</strong>, um deren aktuelle Details (z.B. Material, Rückenlehne) nachzuladen. Übertragen wird dabei nur die öffentliche OSM-ID dieser Bank.</li>
+  <li><strong>Im „Navigieren"-Tab</strong>, um die Bänke in deiner Umgebung aktuell zu halten. Dabei werden deine <strong>Koordinaten und der eingestellte Suchradius</strong> an den Overpass-Server übermittelt.</li>
+</ul>
+<p>Wie bei jedem HTTP-Request wird dabei deine IP-Adresse an die Server des OSM-Projekts übermittelt. Es werden <strong>keine</strong> Nutzerdaten, nicht deine anonyme UUID und keine sonstigen personenbezogenen Daten mitgeschickt.</p>
 <p>Datennutzung und -lizenz: <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OpenStreetMap Privacy Policy</a>.</p>
 
 <h3>6. Karten</h3>
@@ -110,7 +116,7 @@ Kontakt: <a href="mailto:info@mm-consulting.work">info@mm-consulting.work</a></p
 <table>
   <tr><th>Dienst</th><th>Zweck</th><th>Datenschutz</th></tr>
   <tr><td>Supabase</td><td>Speicherung der Community-Daten</td><td><a href="https://supabase.com/privacy">supabase.com/privacy</a></td></tr>
-  <tr><td>OpenStreetMap / Overpass</td><td>Bank-Standorte (öffentliche Karte)</td><td><a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OSMF Privacy Policy</a></td></tr>
+  <tr><td>OpenStreetMap / Overpass</td><td>Details einer angetippten Bank, Umkreissuche im „Navigieren"-Tab</td><td><a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OSMF Privacy Policy</a></td></tr>
   <tr><td>Apple Maps</td><td>Kartendarstellung</td><td><a href="https://www.apple.com/legal/privacy/">Apple Privacy</a></td></tr>
 </table>
 
